@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkyLink - Airline Reservation System</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #eef6ff;
+      color: #102033;
+    }
+
+    header {
+      background: linear-gradient(135deg, #003b73, #0074d9);
+      color: white;
+      padding: 22px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 22px;
+      font-weight: 600;
+    }
+
+    .hero {
+      background: linear-gradient(rgba(0, 35, 80, 0.75), rgba(0, 35, 80, 0.75)),
+        url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1400&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 90px 8%;
+    }
+
+    .hero h1 {
+      font-size: 46px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      max-width: 780px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    .search-box {
+      width: 84%;
+      margin: -45px auto 35px;
+      background: white;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      position: relative;
+    }
+
+    .search-box input,
+    .search-box select,
+    .search-box button {
+      padding: 13px;
+      border: 1px solid #c7d7e8;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    .search-box button {
+      background: #0074d9;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      border: none;
+    }
+
+    .section {
+      padding: 35px 8%;
+    }
+
+    .section-title {
+      font-size: 30px;
+      margin-bottom: 20px;
+      color: #003b73;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+      border-top: 5px solid #0074d9;
+    }
+
+    .card h3 {
+      color: #003b73;
+      margin-bottom: 10px;
+    }
+
+    .flight-route {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 12px 0;
+    }
+
+    .price {
+      color: #008000;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 12px 0;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e7f2ff;
+      color: #005fae;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      margin-top: 15px;
+      padding: 11px 18px;
+      background: #0074d9;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn:hover,
+    .search-box button:hover {
+      background: #005fae;
+    }
+
+    .booking-area {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    form {
+      background: white;
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    form input,
+    form select {
+      width: 100%;
+      padding: 12px;
+      margin: 9px 0 15px;
+      border: 1px solid #c7d7e8;
+      border-radius: 8px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #102033;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    th,
+    td {
+      padding: 14px;
+      border-bottom: 1px solid #e1e9f2;
+      text-align: left;
+    }
+
+    th {
+      background: #003b73;
+      color: white;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 20px;
+    }
+
+    .stat-box {
+      background: white;
+      padding: 22px;
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .stat-box h2 {
+      color: #0074d9;
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    footer {
+      background: #003b73;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    .success {
+      display: none;
+      background: #e6ffe8;
+      color: #087a16;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 900px) {
+      .search-box {
+        grid-template-columns: 1fr;
+        margin-top: 20px;
+      }
+
+      .booking-area {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        margin-top: 15px;
+      }
+
+      nav a {
+        display: inline-block;
+        margin: 8px 10px 0 0;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">SkyLink</div>
+    <nav>
+      <a href="#search">Search Flights</a>
+      <a href="#booking">Booking</a>
+      <a href="#loyalty">Loyalty</a>
+      <a href="#admin">Admin</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Airline Reservation System</h1>
+    <p>
+      A DBMS-based airline booking platform with passenger management, seat inventory,
+      ticket generation, payment handling, loyalty points, and dynamic fare pricing.
+    </p>
+  </section>
+
+  <section id="search" class="search-box">
+    <input type="text" id="from" placeholder="From: DEL" />
+    <input type="text" id="to" placeholder="To: BOM" />
+    <input type="date" id="date" />
+    <select id="classType">
+      <option>Economy</option>
+      <option>Business</option>
+      <option>First Class</option>
+    </select>
+    <button onclick="searchFlights()">Search</button>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Available Flights</h2>
+    <div class="cards" id="flightList"></div>
+  </section>
+
+  <section id="booking" class="section">
+    <h2 class="section-title">Passenger Booking Form</h2>
+
+    <div class="booking-area">
+      <form onsubmit="confirmBooking(event)">
+        <label>Selected Flight</label>
+        <input type="text" id="selectedFlight" placeholder="Select a flight first" readonly />
+
+        <label>Passenger Name</label>
+        <input type="text" id="passengerName" placeholder="Enter passenger name" required />
+
+        <label>Age</label>
+        <input type="number" id="age" placeholder="Enter age" required />
+
+        <label>Gender</label>
+        <select id="gender">
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+
+        <label>Document Number</label>
+        <input type="text" id="document" placeholder="Passport / Aadhaar number" required />
+
+        <label>Seat Number</label>
+        <select id="seat">
+          <option>1A - Business</option>
+          <option>1B - Business</option>
+          <option>10C - Economy</option>
+          <option>12D - Economy</option>
+        </select>
+
+        <label>Payment Method</label>
+        <select id="payment">
+          <option>UPI</option>
+          <option>Credit Card</option>
+          <option>Debit Card</option>
+          <option>Net Banking</option>
+        </select>
+
+        <button class="btn" type="submit">Confirm Booking</button>
+        <div class="success" id="successMsg">
+          Booking confirmed! Ticket and PNR generated successfully.
+        </div>
+      </form>
+
+      <table>
+        <tr>
+          <th>Field</th>
+          <th>Details</th>
+        </tr>
+        <tr>
+          <td>Dynamic Fare</td>
+          <td id="fareDisplay">₹0</td>
+        </tr>
+        <tr>
+          <td>Payment Status</td>
+          <td id="paymentStatus">Pending</td>
+        </tr>
+        <tr>
+          <td>Ticket Status</td>
+          <td id="ticketStatus">Not Issued</td>
+        </tr>
+        <tr>
+          <td>Inventory Status</td>
+          <td id="inventoryStatus">Available</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="loyalty" class="section">
+    <h2 class="section-title">Loyalty Account</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>User: Vedansh Agrawal</h3>
+        <p>Loyalty ID: Auto Generated</p>
+        <p>Tier Level: Silver / Gold</p>
+        <p class="price">+100 Points</p>
+        <span class="tag">Points added after successful payment</span>
+      </div>
+      <div class="card">
+        <h3>Notification</h3>
+        <p>Booking confirmation and PNR are stored in the notification table.</p>
+        <span class="tag">Email / SMS Alerts</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="admin" class="section">
+    <h2 class="section-title">Admin Dashboard</h2>
+    <div class="stats">
+      <div class="stat-box">
+        <h2 id="totalReservations">0</h2>
+        <p>Total Reservations</p>
+      </div>
+      <div class="stat-box">
+        <h2 id="totalRevenue">₹0</h2>
+        <p>Total Revenue</p>
+      </div>
+      <div class="stat-box">
+        <h2 id="totalFlights">0</h2>
+        <p>Available Flights</p>
+      </div>
+      <div class="stat-box">
+        <h2 id="availableSeats">0</h2>
+        <p>Available Seats</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Database Modules Used</h2>
+    <table>
+      <tr>
+        <th>Frontend Module</th>
+        <th>Connected DBMS Table</th>
+      </tr>
+      <tr>
+        <td>User Login / Registration</td>
+        <td>USER, LOYALTY_ACCOUNT</td>
+      </tr>
+      <tr>
+        <td>Flight Search</td>
+        <td>FLIGHT, AIRPORT, AIRCRAFT, PRICING</td>
+      </tr>
+      <tr>
+        <td>Seat Selection</td>
+        <td>SEAT, INVENTORY, SEAT_ASSIGNMENT</td>
+      </tr>
+      <tr>
+        <td>Booking Confirmation</td>
+        <td>RESERVATION, PASSENGER, TICKET</td>
+      </tr>
+      <tr>
+        <td>Payment</td>
+        <td>PAYMENT</td>
+      </tr>
+      <tr>
+        <td>Alerts</td>
+        <td>NOTIFICATION</td>
+      </tr>
+    </table>
+  </section>
+
+  <footer>
+    <p>SkyLink Airline Reservation System with Dynamic Pricing Engine | DBMS Mini Project</p>
+  </footer>
+
+  <script>
+    const API_URL = 'http://localhost:5000/api';
+    let selectedFare = 0;
+
+    async function loadFlights() {
+      try {
+        const res = await fetch(API_URL + '/flights');
+        const flights = await res.json();
+        renderFlights(flights);
+      } catch (err) {
+        alert('Backend is not running. Start Node.js server first.');
+      }
+    }
+
+    function renderFlights(flights) {
+      const list = document.getElementById('flightList');
+      list.innerHTML = '';
+
+      flights.forEach(f => {
+        list.innerHTML += `
+          <div class="card">
+            <h3>${f.airline} - ${f.flight_number}</h3>
+            <p class="flight-route">${f.origin_airport} → ${f.destination_airport}</p>
+            <p>Departure: ${new Date(f.departure_time).toLocaleString()}</p>
+            <p>Arrival: ${new Date(f.arrival_time).toLocaleString()}</p>
+            <p>Seats Available: ${f.available_seats}</p>
+            <p class="price">₹${f.dynamic_fare}</p>
+            <span class="tag">Demand Factor: ${f.demand_factor}</span><br />
+            <button class="btn" onclick="selectFlight('${f.flight_number}', ${f.dynamic_fare})">Book Now</button>
+          </div>
+        `;
+      });
+    }
+
+    function selectFlight(flightNo, fare) {
+      selectedFare = fare;
+      document.getElementById('selectedFlight').value = flightNo;
+      document.getElementById('fareDisplay').innerText = '₹' + fare;
+      window.location.href = '#booking';
+    }
+
+    async function confirmBooking(event) {
+      event.preventDefault();
+
+      const bookingData = {
+        user_name: 'Vedansh Agrawal',
+        email: 'vedansh@example.com',
+        phone: '9876543210',
+        flight_number: document.getElementById('selectedFlight').value,
+        passenger_name: document.getElementById('passengerName').value,
+        age: document.getElementById('age').value,
+        gender: document.getElementById('gender').value.charAt(0),
+        document_number: document.getElementById('document').value,
+        seat_number: document.getElementById('seat').value.split(' ')[0],
+        payment_method: document.getElementById('payment').value,
+        amount: selectedFare
+      };
+
+      if (bookingData.flight_number === '') {
+        alert('Please select a flight first.');
+        return;
+      }
+
+      try {
+        const res = await fetch(API_URL + '/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bookingData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert(data.message || 'Booking failed');
+          return;
+        }
+
+        document.getElementById('successMsg').style.display = 'block';
+        document.getElementById('paymentStatus').innerText = 'Completed';
+        document.getElementById('ticketStatus').innerText = 'Issued';
+        document.getElementById('inventoryStatus').innerText = 'Booked';
+
+        alert('Booking Confirmed!\nPNR: ' + data.pnr + '\nTicket ID: ' + data.ticket_id);
+
+        loadFlights();
+        loadStats();
+      } catch (err) {
+        alert('Backend is not running. Start the Node.js server first.');
+      }
+    }
+
+    async function searchFlights() {
+      const from = document.getElementById('from').value || '';
+      const to = document.getElementById('to').value || '';
+
+      try {
+        const res = await fetch(API_URL + `/flights/search?from=${from}&to=${to}`);
+        const flights = await res.json();
+        renderFlights(flights);
+      } catch (err) {
+        alert('Backend is not running. Start the Node.js server first.');
+      }
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch(API_URL + '/admin/stats');
+        const stats = await res.json();
+
+        document.getElementById('totalReservations').innerText = stats.total_reservations;
+        document.getElementById('totalRevenue').innerText = '₹' + stats.total_revenue;
+        document.getElementById('totalFlights').innerText = stats.total_flights;
+        document.getElementById('availableSeats').innerText = stats.available_seats;
+      } catch (err) {
+        console.log('Stats not loaded');
+      }
+    }
+
+    loadFlights();
+    loadStats();
+  </script>
+</body>
+</html>
